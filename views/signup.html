@@ -1,0 +1,36 @@
+{{define "signup_html"}}
+<!DOCTYPE html>
+{{template "head_html" .}}
+
+<body class="text-center">
+    <form class="form-signup" action="/signup" method="POST">
+      <a href="/"><img class="mb-4" src="/assets/img/logo.png" alt="" width="72" height="72"></a>
+      <h1 class="h3 mb-3 font-weight-normal">Please create your account</h1>
+
+      <label for="inputName" class="sr-only">Name</label>
+      <input name="name" type="text" id="inputName" class="form-control" placeholder="Name" required="" autofocus="">
+
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="">
+
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+
+      <label for="inputRetypePassword" class="sr-only">Retype Password</label>
+      <input name="retype_password" type="password" id="inputRetypePassword" class="form-control" placeholder="Retype password" required="">
+      
+      <label for="inputPasscode" class="sr-only">Passcode</label>
+      <input name="passcode" type="password" id="inputPasscode" class="form-control" placeholder="Passcode" required="">
+      
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      <p>Registered already? <a href="/login">Login here</a></p>
+      <p class="mt-5 mb-3 text-muted">© {{.year}} {{.appName}}</p>
+    </form>
+    {{template "flash_html" .}}
+</body>
+
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/signup.css" crossorigin="anonymous">
+    
+</html>
+{{end}}

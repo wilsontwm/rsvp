@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"rsvp/api"
+	"rsvp/controllers"
 	"rsvp/middleware"
 )
 
@@ -44,6 +45,20 @@ func main() {
 	apiUserRoutes := apiAuthenticatedRoutes.PathPrefix("/users").Subrouter()
 	apiUserRoutes.HandleFunc("/edit", api.EditProfile).Methods("PATCH")
 	apiUserRoutes.HandleFunc("/edit/password", api.EditPassword).Methods("PATCH")
+
+	// ******************************************************************************* //
+	// Web routes
+	routes := router.PathPrefix("").Subrouter()
+
+	// General routes
+	routes.HandleFunc("/", controllers.HomePage).Methods("GET")
+	routes.HandleFunc("/login", controllers.LoginPage).Methods("GET")
+	routes.HandleFunc("/signup", controllers.SignupPage).Methods("GET")
+	routes.HandleFunc("/signup", controllers.SignupSubmit).Methods("POST")
+
+	// Asset files
+	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))
+	router.PathPrefix("/storage/").Handler(http.StripPrefix("/storage/", http.FileServer(http.Dir("./storage/"))))
 
 	port := os.Getenv("port")
 	if port == "" {

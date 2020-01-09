@@ -1,11 +1,23 @@
 package utils
 
 import (
+	"bytes"
 	"encoding/json"
+	"github.com/gorilla/sessions"
+	"github.com/joho/godotenv"
 	"gopkg.in/go-playground/validator.v9"
 	"net/http"
+	"os"
 	"reflect"
 )
+
+// Get a session
+func GetSession(store *sessions.CookieStore, w http.ResponseWriter, r *http.Request) (session *sessions.Session, err error) {
+	err = godotenv.Load() //Load .env file
+	sessionName := os.Getenv("session_name")
+	session, err = store.Get(r, sessionName)
+	return
+}
 
 // Build json message
 func Message(success bool, status int, message string) map[string]interface{} {
@@ -23,6 +35,20 @@ func Respond(w http.ResponseWriter, data map[string]interface{}) {
 		w.WriteHeader(data["status"].(int))
 	}
 	json.NewEncoder(w).Encode(data)
+}
+
+// Send request to API
+func SendRequest(url string, data map[string]interface{}, requestType string) (response *http.Response, err error) {
+	requestBody, err := json.Marshal(data)
+
+	request, _ := http.NewRequest(requestType, url, bytes.NewBuffer(requestBody))
+	request.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+
+	response, err = client.Do(request)
+
+	return
 }
 
 // Build the error message
@@ -53,4 +79,38 @@ func GetErrorMessages(err error) string {
 	}
 
 	return msg
+}
+
+// Initialize a page
+func InitializePage(w http.ResponseWriter, r *http.Request, store *sessions.CookieStore, data map[string]interface{}) (output map[string]interface{}, err error) {
+	session, err := GetSession(store, w, r)
+	errorMessages := session.Flashes("errors")
+	successMessage := session.Flashes("success")
+	session.Save(r, w)
+
+	flash := map[string]interface{}{
+		"errors":  errorMessages,
+		"success": successMessage,
+	}
+	output = MergeMapString(data, flash)
+
+	return
+}
+
+// Merge two map string interface
+func MergeMapString(mp1 map[string]interface{}, mp2 map[string]interface{}) (result map[string]interface{}) {
+	result = make(map[string]interface{})
+	for k, v := range mp1 {
+		if _, ok := mp1[k]; ok {
+			result[k] = v
+		}
+	}
+
+	for k, v := range mp2 {
+		if _, ok := mp2[k]; ok {
+			result[k] = v
+		}
+	}
+
+	return result
 }
