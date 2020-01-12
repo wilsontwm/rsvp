@@ -172,6 +172,19 @@ var SignupSubmit = func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// POST: Logout functionality
+var LogoutSubmit = func(w http.ResponseWriter, r *http.Request) {
+	session, _ := utils.GetSession(store, w, r)
+
+	ClearCookieHandler(w, "auth")
+	ClearCookieHandler(w, "name")
+
+	session.AddFlash("You have successfully logged out.", "success")
+	session.Save(r, w)
+
+	http.Redirect(w, r, "/login", http.StatusFound)
+}
+
 // Dashboard page
 var DashboardPage = func(w http.ResponseWriter, r *http.Request) {
 	var resp map[string]interface{}

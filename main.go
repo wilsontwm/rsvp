@@ -57,6 +57,7 @@ func main() {
 	routes.HandleFunc("/login", controllers.LoginSubmit).Methods("POST")
 	routes.HandleFunc("/signup", controllers.SignupPage).Methods("GET")
 	routes.HandleFunc("/signup", controllers.SignupSubmit).Methods("POST")
+	routes.HandleFunc("/logout", controllers.LogoutSubmit).Methods("POST")
 
 	// Authenticated routes
 	authenticatedRoutes := routes.PathPrefix("/dashboard").Subrouter()
