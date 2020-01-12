@@ -1,0 +1,31 @@
+{{define "edit_profile_html"}}
+<!DOCTYPE html>
+{{template "head_html" .}}
+
+<body>
+    {{template "header_html" .}}
+    <main role="main" class="container mt-5">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h3 class="display-4">Edit profile</h3>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                    <a class="nav-link" id="v-pills-password-tab" data-toggle="pill" href="#v-pills-password" role="tab" aria-controls="v-pills-password" aria-selected="false">Password</a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">{{template "_edit_profile_html" .}}</div>
+                    <div class="tab-pane fade" id="v-pills-password" role="tabpanel" aria-labelledby="v-pills-password-tab">{{template "_edit_password_html" .}}</div>
+                </div>
+            </div>
+          </div>
+    </main><!-- /.container -->
+
+    {{template "flash_html" .}}
+</body>
+ 
+</html>
+{{end}}

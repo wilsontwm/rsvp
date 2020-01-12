@@ -1,0 +1,13 @@
+{{define "_edit_profile_html"}}
+<form id="form-edit-profile" action="/dashboard/profile/edit" method="POST">
+    <div class="form-group">
+        <label for="inputEmail">Email address</label>
+        <input name="email" type="email" class="form-control" id="inputEmail" value="{{ .user.Email }}" required autofocus>
+    </div>
+    <div class="form-group">
+        <label for="inputName">Name</label>
+        <input name="name" type="text" class="form-control" id="inputName" value="{{ .user.Name }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{{end}}

@@ -42,7 +42,8 @@ func main() {
 	apiAuthAttendeesRoutes.HandleFunc("/", api.Index).Methods("GET")
 
 	// User routes
-	apiUserRoutes := apiAuthenticatedRoutes.PathPrefix("/users").Subrouter()
+	apiUserRoutes := apiAuthenticatedRoutes.PathPrefix("/profile").Subrouter()
+	apiUserRoutes.HandleFunc("/get", api.GetProfile).Methods("GET")
 	apiUserRoutes.HandleFunc("/edit", api.EditProfile).Methods("PATCH")
 	apiUserRoutes.HandleFunc("/edit/password", api.EditPassword).Methods("PATCH")
 
@@ -60,6 +61,9 @@ func main() {
 	// Authenticated routes
 	authenticatedRoutes := routes.PathPrefix("/dashboard").Subrouter()
 	authenticatedRoutes.HandleFunc("", controllers.DashboardPage).Methods("GET")
+	authenticatedRoutes.HandleFunc("/profile/edit", controllers.EditProfilePage).Methods("GET")
+	authenticatedRoutes.HandleFunc("/profile/edit", controllers.EditProfileSubmit).Methods("POST")
+	authenticatedRoutes.HandleFunc("/profile/edit/password", controllers.EditPasswordSubmit).Methods("POST")
 
 	// Asset files
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))

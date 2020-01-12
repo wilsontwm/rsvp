@@ -139,7 +139,39 @@ func (user *User) Create() map[string]interface{} {
 	return resp
 }
 
+// Validate the incoming details for edit profile
+func (user *User) ValidateEditProfile() (map[string]interface{}, bool) {
+	var resp map[string]interface{}
+
+	// Email must be unique
+	temp := &User{}
+
+	// Check for errors and duplicate emails
+	db := GetDB()
+	err := db.Table("users").Where("email = ?", user.Email).Not("id", user.ID).First(temp).Error
+
+	defer db.Close()
+
+	if err != nil && err != gorm.ErrRecordNotFound {
+		resp = utils.Message(false, http.StatusInternalServerError, "Connection error. Please retry.")
+		return resp, false
+	}
+
+	if temp.Email != "" {
+		resp = utils.Message(false, http.StatusUnprocessableEntity, "Email address has already been taken.")
+		return resp, false
+	}
+
+	resp = utils.Message(true, http.StatusOK, "Input has been validated.")
+	return resp, true
+}
+
 func (user *User) Edit() map[string]interface{} {
+
+	if resp, ok := user.ValidateEditProfile(); !ok {
+		return resp
+	}
+
 	db := GetDB()
 
 	defer db.Close()

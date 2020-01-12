@@ -32,10 +32,6 @@ type EditPasswordInput struct {
 	RetypePassword string `json:"retype_password" validate:"required,min=8,max=16"`
 }
 
-const (
-	SignupPassCode = "20190520"
-)
-
 // User login
 var Login = func(w http.ResponseWriter, r *http.Request) {
 	var resp map[string]interface{}
@@ -108,6 +104,25 @@ var Signup = func(w http.ResponseWriter, r *http.Request) {
 
 	// Create the account
 	resp = user.Create()
+
+	utils.Respond(w, resp)
+}
+
+// User get profile
+var GetProfile = func(w http.ResponseWriter, r *http.Request) {
+	var resp map[string]interface{}
+	userId := r.Context().Value("user").(uuid.UUID)
+
+	user := models.GetUser(userId)
+
+	if user == nil {
+		resp = utils.Message(false, http.StatusUnprocessableEntity, "Something wrong has occured. Please try again.")
+		utils.Respond(w, resp)
+		return
+	}
+
+	resp = utils.Message(true, http.StatusOK, "Profile retrieved")
+	resp["data"] = user
 
 	utils.Respond(w, resp)
 }
