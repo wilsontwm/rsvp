@@ -51,6 +51,21 @@ func SendRequest(url string, data map[string]interface{}, requestType string) (r
 	return
 }
 
+// Send a request to API with authentication
+func SendAuthenticatedRequest(url string, authToken string, data map[string]interface{}, requestType string) (response *http.Response, err error) {
+	requestBody, err := json.Marshal(data)
+
+	request, _ := http.NewRequest(requestType, url, bytes.NewBuffer(requestBody))
+	request.Header.Set("Content-Type", "application/json")
+	request.Header.Set("Authorization", "Bearer "+authToken)
+
+	client := &http.Client{}
+
+	response, err = client.Do(request)
+
+	return
+}
+
 // Build the error message
 func GetErrorMessages(err error) string {
 	var msg string
@@ -79,22 +94,6 @@ func GetErrorMessages(err error) string {
 	}
 
 	return msg
-}
-
-// Initialize a page
-func InitializePage(w http.ResponseWriter, r *http.Request, store *sessions.CookieStore, data map[string]interface{}) (output map[string]interface{}, err error) {
-	session, err := GetSession(store, w, r)
-	errorMessages := session.Flashes("errors")
-	successMessage := session.Flashes("success")
-	session.Save(r, w)
-
-	flash := map[string]interface{}{
-		"errors":  errorMessages,
-		"success": successMessage,
-	}
-	output = MergeMapString(data, flash)
-
-	return
 }
 
 // Merge two map string interface

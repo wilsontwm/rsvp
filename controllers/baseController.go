@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"rsvp/utils"
 	"strings"
 )
 
@@ -58,6 +59,9 @@ func GetTemplates() (templates *template.Template, err error) {
 				return string(runes[:limit]) + "..."
 			}
 			return value
+		},
+		"add": func(value int, add int) int {
+			return value + add
 		},
 	}
 	// Loop through all the files in the views folder including subfolders
@@ -149,4 +153,28 @@ func CheckAuthenticatedRequest(w http.ResponseWriter, r *http.Request, responseC
 	}
 
 	return true
+}
+
+// Initialize a page
+func InitializePage(w http.ResponseWriter, r *http.Request, store *sessions.CookieStore, data map[string]interface{}) (output map[string]interface{}, err error) {
+	session, err := utils.GetSession(store, w, r)
+	errorMessages := session.Flashes("errors")
+	successMessage := session.Flashes("success")
+	session.Save(r, w)
+
+	flash := map[string]interface{}{
+		"errors":  errorMessages,
+		"success": successMessage,
+	}
+	output = utils.MergeMapString(data, flash)
+
+	userName := ReadCookieHandler(w, r, "name")
+	// Set the user's detail
+	userDetails := map[string]interface{}{
+		"userName": userName,
+	}
+
+	output = utils.MergeMapString(output, userDetails)
+
+	return
 }

@@ -8,15 +8,17 @@ import (
 
 type Attendee struct {
 	Base
-	Name  string `json:"name" gorm:"not null"`
-	Email string `json:"email"`
+	Name            string `gorm:"not null"`
+	Email           string
+	Phone           string
+	UpdatedAtString string `gorm:"-"`
 }
 
 // Create multiple attendees
-func (attendee *Attendee) CreateMultiple(name string, email string, names []string, emails []string) map[string]interface{} {
+func (attendee *Attendee) CreateMultiple(name string, email string, phone string, names []string, emails []string, phones []string) map[string]interface{} {
 	var resp map[string]interface{}
 
-	if err := CreateAttendeesTransaction(name, email, names, emails); err != nil {
+	if err := CreateAttendeesTransaction(name, email, phone, names, emails, phones); err != nil {
 		resp = utils.Message(false, http.StatusInternalServerError, err.Error())
 		return resp
 	}
@@ -27,7 +29,7 @@ func (attendee *Attendee) CreateMultiple(name string, email string, names []stri
 }
 
 // The transaction to create attendees in bulk
-func CreateAttendeesTransaction(name string, email string, names []string, emails []string) error {
+func CreateAttendeesTransaction(name string, email string, phone string, names []string, emails []string, phones []string) error {
 	db := GetDB()
 
 	defer db.Close()
@@ -44,15 +46,15 @@ func CreateAttendeesTransaction(name string, email string, names []string, email
 		return err
 	}
 
-	mainAttendee := Attendee{Name: name, Email: email}
+	mainAttendee := Attendee{Name: name, Email: email, Phone: phone}
 	if err := tx.Create(&mainAttendee).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
 
 	// Loop through all the accompanies and create
-	for i := 0; i < len(names) && i < len(emails); i++ {
-		attendee := Attendee{Name: names[i], Email: emails[i]}
+	for i := 0; i < len(names) && i < len(emails) && i < len(phones); i++ {
+		attendee := Attendee{Name: names[i], Email: emails[i], Phone: phones[i]}
 		if err := tx.Create(&attendee).Error; err != nil {
 			tx.Rollback()
 			return err
@@ -71,6 +73,7 @@ func (attendee *Attendee) List() map[string]interface{} {
 	defer db.Close()
 
 	db.Table("attendees").
+		Select("attendees.*, TO_CHAR(attendees.updated_at, '" + utils.DateTimeSQLFormat + "') as updated_at_string").
 		Where("deleted_at is NULL").
 		Order("updated_at DESC").
 		Find(&attendees)

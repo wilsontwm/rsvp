@@ -1,0 +1,41 @@
+{{define "dashboard_html"}}
+<!DOCTYPE html>
+{{template "head_html" .}}
+
+<body>
+    {{template "header_html" .}}
+    <main role="main" class="container mt-5">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">RSVP List</h1>
+            <p class="lead">The following are the attendees that have RSVP to the wedding dinner:</p>
+        </div>
+              
+        <table class="table">
+        <thead class="thead-light">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Registered at</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range $index, $element := .attendees}}
+            <tr>
+            <th scope="row">{{add $index 1}}</th>
+            <td>{{.Name}}</td>
+            <td>{{.Email}}</td>
+            <td>{{.Phone}}</td>
+            <td>{{.UpdatedAtString}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+        </table>
+    </main><!-- /.container -->
+
+    {{template "flash_html" .}}
+</body>
+ 
+</html>
+{{end}}

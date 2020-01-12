@@ -12,8 +12,10 @@ import (
 type AttendeesInput struct {
 	Name   string   `json:"name" validate:"required"`
 	Email  string   `json:"email" validate:"required,email"`
+	Phone  string   `json:"phone"`
 	Names  []string `json:"names"`
 	Emails []string `json:"emails"`
+	Phones []string `json:"phones"`
 }
 
 // Get all the attendees
@@ -58,7 +60,7 @@ var CreateAttendees = func(w http.ResponseWriter, r *http.Request) {
 
 	// Create the attendees
 	attendee := &models.Attendee{}
-	resp = attendee.CreateMultiple(input.Name, input.Email, input.Names, input.Emails)
+	resp = attendee.CreateMultiple(input.Name, input.Email, input.Phone, input.Names, input.Emails, input.Phones)
 
 	utils.Respond(w, resp)
 }

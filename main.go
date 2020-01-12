@@ -53,8 +53,13 @@ func main() {
 	// General routes
 	routes.HandleFunc("/", controllers.HomePage).Methods("GET")
 	routes.HandleFunc("/login", controllers.LoginPage).Methods("GET")
+	routes.HandleFunc("/login", controllers.LoginSubmit).Methods("POST")
 	routes.HandleFunc("/signup", controllers.SignupPage).Methods("GET")
 	routes.HandleFunc("/signup", controllers.SignupSubmit).Methods("POST")
+
+	// Authenticated routes
+	authenticatedRoutes := routes.PathPrefix("/dashboard").Subrouter()
+	authenticatedRoutes.HandleFunc("", controllers.DashboardPage).Methods("GET")
 
 	// Asset files
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))

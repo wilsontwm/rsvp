@@ -19,11 +19,11 @@ type Token struct {
 
 type User struct {
 	Base
-	Name     string `json:"name" gorm:"not null"`
-	Email    string `json:"email" gorm:"unique;not null"`
-	Password string `json:"password" gorm:"not null"`
-	PassCode string `json:"passcode" gorm:"-"`
-	Token    string `json:"token" gorm:"-"`
+	Name     string `gorm:"not null"`
+	Email    string `gorm:"unique;not null"`
+	Password string `gorm:"not null"`
+	PassCode string `gorm:"-"`
+	Token    string `gorm:"-"`
 }
 
 // Login the user
