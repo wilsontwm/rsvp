@@ -180,3 +180,7 @@ div.loading{
     opacity: 1;
     transform: scale(1);
 }
+
+.btn-icon {
+    padding: 5px 2px;
+}

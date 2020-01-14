@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"rsvp/utils"
 	"strconv"
+	"strings"
 )
 
 type Attendee struct {
@@ -14,9 +15,29 @@ type Attendee struct {
 	UpdatedAtString string `gorm:"-"`
 }
 
+// Validate the incoming details for signup
+func (attendee *Attendee) ValidateAttendees(name string, email string, phone string, names []string, emails []string, phones []string) (map[string]interface{}, bool) {
+	var resp map[string]interface{}
+
+	for _, n := range names {
+		if strings.TrimSpace(n) == "" {
+			resp = utils.Message(false, http.StatusUnprocessableEntity, "Validation error: Cannot leave attendee name empty..")
+			return resp, false
+		}
+	}
+
+	resp = utils.Message(true, http.StatusOK, "Input has been validated.")
+	return resp, true
+}
+
 // Create multiple attendees
 func (attendee *Attendee) CreateMultiple(name string, email string, phone string, names []string, emails []string, phones []string) map[string]interface{} {
 	var resp map[string]interface{}
+
+	// Validate the account first
+	if resp, ok := attendee.ValidateAttendees(name, email, phone, names, emails, phones); !ok {
+		return resp
+	}
 
 	if err := CreateAttendeesTransaction(name, email, phone, names, emails, phones); err != nil {
 		resp = utils.Message(false, http.StatusInternalServerError, err.Error())

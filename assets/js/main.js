@@ -20,12 +20,15 @@ $(document).ready(function(){
 
 // Show/hide the loading screen
 function toggleLoading(){    
-    document.activeElement.blur();
-    if (loadingOverlay.classList.contains('hidden')){
-        loadingOverlay.classList.remove('hidden');
-    } else {
-        loadingOverlay.classList.add('hidden');
+    if(loadingOverlay) {        
+        document.activeElement.blur();
+        if (loadingOverlay.classList.contains('hidden')){
+            loadingOverlay.classList.remove('hidden');
+        } else {
+            loadingOverlay.classList.add('hidden');
+        }
     }
+    
 }
 
 // Reset the loading screen when page load

@@ -7,7 +7,53 @@
         <h1 id="title-welcome">Welcome</h1>
         <a id="btn-welcome" class="btn" href="/login">Enter</a>
     </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#rsvp-modal">
+        RSVP here!
+    </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="rsvp-modal" tabindex="-1" role="dialog" aria-labelledby="rsvp-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="rsvp-modal-title">RSVP to the wedding dinner</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>            
+            <form id="form-rsvp" action="/rsvp" method="POST">
+                <div class="modal-body">
+                    <p>Enter your details below:</p>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input name="phone" type="text" class="form-control" id="inputPhone" placeholder="Phone" required>
+                        </div>
+                    </div>
+                    <div id="container-add-attendee">
+                        <p id="text-add-attendee">Bringing someone along? <a id="btn-add-attendee" href="#">Click here</a> to add their details.</p>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" id="btn-submit-rsvp" class="btn btn-success">Submit</button>
+                </div>                
+            </form>
+        </div>
+        </div>
+    </div>
 </body>
 
+<!-- Javascript -->
+<script type="text/javascript" src="/assets/js/index.js"></script>
+    
 </html>
 {{end}}

@@ -31,9 +31,12 @@ func Message(success bool, status int, message string) map[string]interface{} {
 // Return json response
 func Respond(w http.ResponseWriter, data map[string]interface{}) {
 	w.Header().Add("Content-Type", "application/json")
-	if _, ok := data["status"]; ok {
-		w.WriteHeader(data["status"].(int))
+	if statusCode, ok := data["status"].(int); ok {
+		w.WriteHeader(statusCode)
+	} else if statusCode, ok := data["status"].(float64); ok {
+		w.WriteHeader(int(statusCode))
 	}
+
 	json.NewEncoder(w).Encode(data)
 }
 

@@ -227,9 +227,49 @@ var DashboardPage = func(w http.ResponseWriter, r *http.Request) {
 
 		} else {
 			utils.SetErrorSuccessFlash(session, w, r, resp)
-			// Redirect back to the home page
-			http.Redirect(w, r, "/", http.StatusFound)
+			// Redirect back to the login page
+			http.Redirect(w, r, "/login", http.StatusFound)
 		}
 	}
+}
 
+// POST: RSVP functionality
+var RsvpSubmit = func(w http.ResponseWriter, r *http.Request) {
+	var resp map[string]interface{}
+
+	// Set the URL path
+	restURL.Path = "/api/attendees/create"
+	urlStr := restURL.String()
+
+	//Get the input data from the form
+	r.ParseForm()
+	name := strings.TrimSpace(r.Form.Get("name"))
+	email := strings.TrimSpace(r.Form.Get("email"))
+	phone := strings.TrimSpace(r.Form.Get("phone"))
+	// Need to use this to check input slice
+	names := r.Form["names"]
+	emails := r.Form["emails"]
+	phones := r.Form["phones"]
+
+	// Set the input data
+	jsonData := map[string]interface{}{
+		"name":   name,
+		"email":  email,
+		"phone":  phone,
+		"names":  names,
+		"emails": emails,
+		"phones": phones,
+	}
+
+	response, err := utils.SendRequest(urlStr, jsonData, "POST")
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	} else {
+		data, _ := ioutil.ReadAll(response.Body)
+
+		// Parse it to json data
+		json.Unmarshal(data, &resp)
+		utils.Respond(w, resp)
+	}
 }
