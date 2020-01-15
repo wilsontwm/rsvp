@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/satori/go.uuid"
 	"net/http"
 	"rsvp/utils"
 	"strconv"
@@ -12,7 +13,13 @@ type Attendee struct {
 	Name            string `gorm:"not null"`
 	Email           string
 	Phone           string
-	UpdatedAtString string `gorm:"-"`
+	AccompaniedBy   uuid.UUID `gorm:"type:uuid;"`
+	UpdatedAtString string    `gorm:"-"`
+}
+
+type AttendeeOutput struct {
+	Attendee
+	AccompaniedByName string
 }
 
 // Validate the incoming details for signup
@@ -75,7 +82,7 @@ func CreateAttendeesTransaction(name string, email string, phone string, names [
 
 	// Loop through all the accompanies and create
 	for i := 0; i < len(names) && i < len(emails) && i < len(phones); i++ {
-		attendee := Attendee{Name: names[i], Email: emails[i], Phone: phones[i]}
+		attendee := Attendee{Name: names[i], Email: emails[i], Phone: phones[i], AccompaniedBy: mainAttendee.ID}
 		if err := tx.Create(&attendee).Error; err != nil {
 			tx.Rollback()
 			return err
@@ -88,15 +95,16 @@ func CreateAttendeesTransaction(name string, email string, phone string, names [
 func (attendee *Attendee) List() map[string]interface{} {
 	var resp map[string]interface{}
 
-	attendees := []Attendee{}
+	attendees := []AttendeeOutput{}
 
 	db := GetDB()
 	defer db.Close()
 
 	db.Table("attendees").
-		Select("attendees.*, TO_CHAR(attendees.updated_at, '" + utils.DateTimeSQLFormat + "') as updated_at_string").
-		Where("deleted_at is NULL").
-		Order("updated_at DESC").
+		Select("attendees.*, TO_CHAR(attendees.updated_at, '" + utils.DateTimeSQLFormat + "') as updated_at_string, MAIN_ATTENDEE.name as accompanied_by_name").
+		Joins("LEFT JOIN attendees MAIN_ATTENDEE ON MAIN_ATTENDEE.id = attendees.accompanied_by").
+		Where("attendees.deleted_at is NULL").
+		Order("attendees.updated_at ASC").
 		Find(&attendees)
 
 	resp = utils.Message(true, http.StatusOK, "You have successfully retrieved "+strconv.Itoa(len(attendees))+" attendees.")
