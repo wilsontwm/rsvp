@@ -2,57 +2,318 @@
 <!DOCTYPE html>
 {{template "head_html" .}}
 
-<body>
-    <div class="center text-center">
-        <h1 id="title-welcome">Welcome</h1>
-        <a id="btn-welcome" class="btn" href="/login">Enter</a>
-    </div>
+<body id="page-top">
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#rsvp-modal">
-        RSVP here!
-    </button>
-    
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+          <div class="container">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">Wilson <img class="mb-2" src="/assets/img/logo.png" alt="" width="24" height="24"> Shu Zhen</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              Menu
+              <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="/signup">Signup</a>
+                </li>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      
+        <!-- Header -->
+        <header class="masthead">
+          <div class="container">
+            <div class="intro-text">
+              <div class="intro-heading text-uppercase">We are getting married!</div>
+              <div class="intro-lead-in">You're cordially invited to our wedding dinner.</div>
+              <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-xl text-uppercase" data-toggle="modal" data-target="#rsvp-modal">
+                    RSVP here!
+                </button>
+            </div>
+          </div>
+        </header>
+      
+        <!-- When & Where -->
+        <section class="page-section" id="whenwhere">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <h2 class="section-heading text-uppercase">When</h2>
+                        <h3 class="section-subheading text-muted">26 September 2020, 7.00pm</h3>
+                        <div class="countdown">
+                            <div class="bloc-time days" data-init-value="123">
+                                <span class="count-title">days</span>
+                        
+                                <div class="figure days days-1">
+                                    <span class="top">9</span>
+                                    <span class="top-back">
+                                        <span>9</span>
+                                    </span>
+                                    <span class="bottom">9</span>
+                                    <span class="bottom-back">
+                                        <span>9</span>
+                                    </span>
+                                </div>
+                    
+                                <div class="figure days days-2">
+                                    <span class="top">9</span>
+                                    <span class="top-back">
+                                        <span>9</span>
+                                    </span>
+                                    <span class="bottom">9</span>
+                                    <span class="bottom-back">
+                                        <span>9</span>
+                                    </span>
+                                </div>
+
+                                <div class="figure days days-3">
+                                  <span class="top">9</span>
+                                  <span class="top-back">
+                                      <span>9</span>
+                                  </span>
+                                  <span class="bottom">9</span>
+                                  <span class="bottom-back">
+                                      <span>9</span>
+                                  </span>
+                              </div>
+                            </div>
+                            
+                            <div class="bloc-time hours" data-init-value="24">
+                                <span class="count-title">Hours</span>
+                        
+                                <div class="figure hours hours-1">
+                                    <span class="top">2</span>
+                                    <span class="top-back">
+                                        <span>2</span>
+                                    </span>
+                                    <span class="bottom">2</span>
+                                    <span class="bottom-back">
+                                        <span>2</span>
+                                    </span>
+                                </div>
+                        
+                                <div class="figure hours hours-2">
+                                    <span class="top">4</span>
+                                    <span class="top-back">
+                                        <span>4</span>
+                                    </span>
+                                    <span class="bottom">4</span>
+                                    <span class="bottom-back">
+                                        <span>4</span>
+                                    </span>
+                                </div>
+                            </div>
+                        
+                            <div class="bloc-time min" data-init-value="0">
+                                <span class="count-title">Minutes</span>
+                        
+                                <div class="figure min min-1">
+                                    <span class="top">0</span>
+                                    <span class="top-back">
+                                        <span>0</span>
+                                    </span>
+                                    <span class="bottom">0</span>
+                                    <span class="bottom-back">
+                                        <span>0</span>
+                                    </span>        
+                                </div>
+                        
+                                <div class="figure min min-2">
+                                    <span class="top">0</span>
+                                    <span class="top-back">
+                                        <span>0</span>
+                                    </span>
+                                    <span class="bottom">0</span>
+                                    <span class="bottom-back">
+                                        <span>0</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="bloc-time sec" data-init-value="0">
+                                <span class="count-title">Seconds</span>
+                        
+                                <div class="figure sec sec-1">
+                                    <span class="top">0</span>
+                                    <span class="top-back">
+                                        <span>0</span>
+                                    </span>
+                                    <span class="bottom">0</span>
+                                    <span class="bottom-back">
+                                        <span>0</span>
+                                    </span>        
+                                </div>
+                        
+                                <div class="figure sec sec-2">
+                                    <span class="top">0</span>
+                                    <span class="top-back">
+                                        <span>0</span>
+                                    </span>
+                                    <span class="bottom">0</span>
+                                    <span class="bottom-back">
+                                        <span>0</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <h2 class="section-heading text-uppercase">Where</h2>
+                        <h3 class="section-subheading text-muted" style="margin-bottom:30px;">
+                            Jaya Palace Restaurant 皇宫海鲜酒家<br />
+                            <small>
+                              No. 12, Wisma LYL, Jalan 51a/223 <br />
+                              Seksyen 51a, 46100 Petaling Jaya, Selangor
+                            </small>
+                        </h3>
+                        <div class="mapouter">
+                          <div class="gmap_canvas">
+                            <iframe id="gmap_canvas" width="600" height="300" src="https://maps.google.com/maps?q=jaya%20palace%20restaurant&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section id="gallery" class="bg-light page-section" >
+          <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                  <h2 class="section-heading text-uppercase">Photo Gallery</h2>
+                </div>
+              </div>
+            <div id="image-gallery" class="row">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/500"><img src="https://unsplash.it/500" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/600"><img src="https://unsplash.it/600" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/700"><img src="https://unsplash.it/700" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/800"><img src="https://unsplash.it/800" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/900"><img src="https://unsplash.it/900" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/1000"><img src="https://unsplash.it/1000" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/1100"><img src="https://unsplash.it/1100" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 image">
+                <div class="img-wrapper">
+                  <a href="https://unsplash.it/1200"><img src="https://unsplash.it/1200" class="img-responsive"></a>
+                  <div class="img-overlay">
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End image gallery -->
+          </div><!-- End container --> 
+        </section>
+      
+        <!-- Footer -->
+        <footer class="footer">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <span class="copyright">© {{.year}} {{.appName}}</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      
     <!-- Modal -->
     <div class="modal fade" id="rsvp-modal" tabindex="-1" role="dialog" aria-labelledby="rsvp-modal-title" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="rsvp-modal-title">RSVP to the wedding dinner</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>            
-            <form id="form-rsvp" action="/rsvp" method="POST">
-                <div class="modal-body">
-                    <p>Enter your details below:</p>
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="rsvp-modal-title">RSVP to the wedding dinner</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>            
+                <form id="form-rsvp" action="/rsvp" method="POST">
+                    <div class="modal-body">
+                        <p>Enter your details below:</p>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input name="name" type="text" class="form-control" id="inputName" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <input name="phone" type="text" class="form-control" id="inputPhone" placeholder="Phone" required>
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <input name="email" type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+                        <div id="container-add-attendee">
+                            <p id="text-add-attendee">Bringing someone along? <a id="btn-add-attendee" href="#">Click here</a> to add their details.</p>
                         </div>
-                        <div class="form-group col-md-3">
-                            <input name="phone" type="text" class="form-control" id="inputPhone" placeholder="Phone" required>
-                        </div>
+    
                     </div>
-                    <div id="container-add-attendee">
-                        <p id="text-add-attendee">Bringing someone along? <a id="btn-add-attendee" href="#">Click here</a> to add their details.</p>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" id="btn-submit-rsvp" class="btn btn-success">Submit</button>
-                </div>                
-            </form>
-        </div>
-        </div>
-    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" id="btn-submit-rsvp" class="btn btn-success">Submit</button>
+                    </div>                
+                </form>
+            </div>
+            </div>
+        </div> 
 </body>
 
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/index.css">
 <!-- Javascript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
 <script type="text/javascript" src="/assets/js/index.js"></script>
     
 </html>
