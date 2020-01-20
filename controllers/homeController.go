@@ -270,6 +270,15 @@ var RsvpSubmit = func(w http.ResponseWriter, r *http.Request) {
 
 		// Parse it to json data
 		json.Unmarshal(data, &resp)
+
+		// Send RSVP email
+		if resp["success"].(bool) {
+			subject := appName + " - Thanks for RSVP to our wedding"
+			receiver := email
+			r := utils.NewRequest([]string{receiver}, subject)
+			r.Send("views/mail/rsvp.html", map[string]string{"appName": appName, "name": name})
+		}
+
 		utils.Respond(w, resp)
 	}
 }
