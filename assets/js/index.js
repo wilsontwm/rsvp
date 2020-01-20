@@ -22,11 +22,16 @@ $(document).ready(function(){
         e.preventDefault();
         var queries = $('#form-rsvp').serialize();
         toggleLoading();
-        
+        $('#btn-submit-rsvp').html("Loading...");
+        $('#btn-submit-rsvp').attr("disabled", true);
+
         axios.post('/rsvp', queries)
         .then(function (response) {
-            toggleLoading();
-            if(response['data']['success']) {                
+            $('#btn-submit-rsvp').html("Submit");
+            $('#btn-submit-rsvp').attr("disabled", false);
+        
+            if(response['data']['success']) {      
+                $('#form-rsvp')[0].reset();          
                 $('#rsvp-modal').modal('toggle');
                 Swal.fire({
                     title: 'Wilson & Shu Zhen:',
@@ -44,8 +49,9 @@ $(document).ready(function(){
             }
         
         })
-        .catch(function (error) {
-            toggleLoading();
+        .catch(function (error) {            
+            $('#btn-submit-rsvp').html("Submit");
+            $('#btn-submit-rsvp').attr("disabled", false);
             Swal.fire({
                 title: 'Error!',
                 text: "Please make sure that you have filled up all the required fields.",
