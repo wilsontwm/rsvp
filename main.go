@@ -71,7 +71,7 @@ func main() {
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))
 	router.PathPrefix("/storage/").Handler(http.StripPrefix("/storage/", http.FileServer(http.Dir("./storage/"))))
 
-	port := os.Getenv("port")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
