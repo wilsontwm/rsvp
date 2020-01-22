@@ -58,6 +58,9 @@ func migrateDatabase() {
 
 func GetDB() *gorm.DB {
 	dbUri := fmt.Sprintf("postgres://%v@%v:%v/%v?sslmode=disable&password=%v", username, dbHost, dbPort, dbName, password)
+	if os.Getenv("is_heroku") == "true" {
+		dbUri = os.Getenv("heroku_db")
+	}
 
 	// Making connection to the database
 	db, err := gorm.Open("postgres", dbUri)
