@@ -92,6 +92,7 @@ func CreateAttendeesTransaction(name string, email string, phone string, names [
 	return tx.Commit().Error
 }
 
+// List out all the attendees
 func (attendee *Attendee) List() map[string]interface{} {
 	var resp map[string]interface{}
 
@@ -109,6 +110,19 @@ func (attendee *Attendee) List() map[string]interface{} {
 
 	resp = utils.Message(true, http.StatusOK, "You have successfully retrieved "+strconv.Itoa(len(attendees))+" attendees.")
 	resp["data"] = attendees
+
+	return resp
+}
+
+// Delete the attendee by ID
+func (attendee *Attendee) Delete(id uuid.UUID) map[string]interface{} {
+	var resp map[string]interface{}
+	db := GetDB()
+	defer db.Close()
+
+	db.Where("id = ?", id).Delete(&Attendee{})
+
+	resp = utils.Message(true, http.StatusOK, "You have successfully removed the attendee.")
 
 	return resp
 }

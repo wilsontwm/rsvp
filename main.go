@@ -39,7 +39,8 @@ func main() {
 
 	// Attendees routes
 	apiAuthAttendeesRoutes := apiAuthenticatedRoutes.PathPrefix("/attendees").Subrouter()
-	apiAuthAttendeesRoutes.HandleFunc("/", api.Index).Methods("GET")
+	apiAuthAttendeesRoutes.HandleFunc("/", api.IndexAttendees).Methods("GET")
+	apiAuthAttendeesRoutes.HandleFunc("/{id}/delete", api.DeleteAttendee).Methods("DELETE")
 
 	// User routes
 	apiUserRoutes := apiAuthenticatedRoutes.PathPrefix("/profile").Subrouter()
@@ -66,12 +67,13 @@ func main() {
 	authenticatedRoutes.HandleFunc("/profile/edit", controllers.EditProfilePage).Methods("GET")
 	authenticatedRoutes.HandleFunc("/profile/edit", controllers.EditProfileSubmit).Methods("POST")
 	authenticatedRoutes.HandleFunc("/profile/edit/password", controllers.EditPasswordSubmit).Methods("POST")
+	authenticatedRoutes.HandleFunc("/attendees/{id}/delete", controllers.DeleteAttendeeSubmit).Methods("POST")
 
 	// Asset files
 	router.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets/"))))
 	router.PathPrefix("/storage/").Handler(http.StripPrefix("/storage/", http.FileServer(http.Dir("./storage/"))))
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("port")
 	if port == "" {
 		port = "8000"
 	}

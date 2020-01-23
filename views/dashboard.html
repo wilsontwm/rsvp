@@ -19,6 +19,7 @@
             <th scope="col">Phone</th>
             <th scope="col">Accompanied by</th>
             <th scope="col">Registered at</th>
+            <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -30,14 +31,16 @@
             <td>{{.Phone}}</td>
             <td>{{.AccompaniedByName}}</td>
             <td>{{.UpdatedAtString}}</td>
+            <td><a class="btn-delete-attendee btn-link text-danger" data-id="{{.ID}}"><i class="fa fa-trash"></i></a></td>
             </tr>
             {{end}}
         </tbody>
         </table>
     </main><!-- /.container -->
-
+    {{template "_delete_attendee_form_html" .}}
     {{template "flash_html" .}}
 </body>
- 
+ <!-- Javascript -->
+<script type="text/javascript" src="/assets/js/dashboard.js"></script>
 </html>
 {{end}}

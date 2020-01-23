@@ -2,7 +2,8 @@ package api
 
 import (
 	"encoding/json"
-	//"github.com/satori/go.uuid"
+	"github.com/gorilla/mux"
+	"github.com/satori/go.uuid"
 	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	"rsvp/models"
@@ -19,7 +20,7 @@ type AttendeesInput struct {
 }
 
 // Get all the attendees
-var Index = func(w http.ResponseWriter, r *http.Request) {
+var IndexAttendees = func(w http.ResponseWriter, r *http.Request) {
 	var resp map[string]interface{}
 	// userId := r.Context().Value("user").(uuid.UUID)
 
@@ -38,6 +39,7 @@ var Index = func(w http.ResponseWriter, r *http.Request) {
 	utils.Respond(w, resp)
 }
 
+// Create the attendees (in bulk)
 var CreateAttendees = func(w http.ResponseWriter, r *http.Request) {
 	var resp map[string]interface{}
 
@@ -61,6 +63,28 @@ var CreateAttendees = func(w http.ResponseWriter, r *http.Request) {
 	// Create the attendees
 	attendee := &models.Attendee{}
 	resp = attendee.CreateMultiple(input.Name, input.Email, input.Phone, input.Names, input.Emails, input.Phones)
+
+	utils.Respond(w, resp)
+}
+
+// Delete the attendee
+var DeleteAttendee = func(w http.ResponseWriter, r *http.Request) {
+	var resp map[string]interface{}
+	userId := r.Context().Value("user").(uuid.UUID)
+	user := models.GetUser(userId)
+
+	if user == nil {
+		resp := utils.Message(false, http.StatusForbidden, "You are not allowed to perform the action.")
+		utils.Respond(w, resp)
+		return
+	}
+
+	// Get the ID of the company passed in via URL
+	vars := mux.Vars(r)
+	attendeeId, _ := uuid.FromString(vars["id"])
+
+	attendee := &models.Attendee{}
+	resp = attendee.Delete(attendeeId)
 
 	utils.Respond(w, resp)
 }
