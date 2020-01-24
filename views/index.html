@@ -282,6 +282,7 @@
                 </button>
                 </div>            
                 <form id="form-rsvp" action="/rsvp" method="POST">
+                    {{ .csrfField }}
                     <div class="modal-body">
                         <p>Enter your details below:</p>
                         <div class="form-row">

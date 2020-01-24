@@ -1,5 +1,6 @@
 {{define "_edit_profile_html"}}
 <form id="form-edit-profile" action="/dashboard/profile/edit" method="POST">
+    {{ .csrfField }}
     <div class="form-group">
         <label for="inputEmail">Email address</label>
         <input name="email" type="email" class="form-control" id="inputEmail" value="{{ .user.Email }}" required autofocus>

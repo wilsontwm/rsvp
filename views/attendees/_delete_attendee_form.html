@@ -1,3 +1,5 @@
 {{define "_delete_attendee_form_html"}}
-<form id="form-delete-attendee" action="" method="POST" hidden></form>
+<form id="form-delete-attendee" action="" method="POST" hidden>
+    {{ .csrfField }}
+</form>
 {{end}}

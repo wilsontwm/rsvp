@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gorilla/csrf"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
@@ -51,6 +52,13 @@ func main() {
 	// ******************************************************************************* //
 	// Web routes
 	routes := router.PathPrefix("").Subrouter()
+
+	csrfMiddleware := csrf.Protect(
+		[]byte(os.Getenv("csrf_token")),
+		// To be removed in production in https
+		csrf.Secure(false),
+	)
+	routes.Use(csrfMiddleware)
 
 	// General routes
 	routes.HandleFunc("/", controllers.HomePage).Methods("GET")
