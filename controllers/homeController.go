@@ -4,11 +4,20 @@ import (
 	"encoding/json"
 	"github.com/gorilla/csrf"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"net/url"
 	"rsvp/utils"
 	"strings"
 	"time"
 )
+
+type JSONAPIResponse struct {
+	Success     bool      `json:"success"`
+	ChallengeTS time.Time `json:"challenge_ts"` // timestamp of the challenge load (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
+	Hostname    string    `json:"hostname"`     // the hostname of the site where the reCAPTCHA was solved
+	ErrorCodes  []int     `json:"error-codes"`  //optional
+}
 
 // Home page
 var HomePage = func(w http.ResponseWriter, r *http.Request) {
@@ -246,10 +255,57 @@ var RsvpSubmit = func(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(r.Form.Get("name"))
 	email := strings.TrimSpace(r.Form.Get("email"))
 	phone := strings.TrimSpace(r.Form.Get("phone"))
+	recaptcha := strings.TrimSpace(r.Form.Get("g-recaptcha-response"))
 	// Need to use this to check input slice
 	names := r.Form["names"]
 	emails := r.Form["emails"]
 	phones := r.Form["phones"]
+
+	// Validate the recaptcha first
+	if recaptcha == "" {
+		resp = utils.Message(false, http.StatusOK, "Are you a human?")
+		utils.Respond(w, resp)
+		return
+	}
+
+	// get end user's IP address
+	//remoteip := "[REPLACE WITH YOUR IP ADDRESS IF ON LOCALHOST OR UNCOMMENT SPLITHOST BELOW]"
+	remoteip, _, _ := net.SplitHostPort(r.RemoteAddr)
+
+	// to verify if the recaptcha is REAL. we must send
+	// secret + response + remoteip(optional) to postURL
+
+	secret := recaptchaSecretKey
+	postURL := "https://www.google.com/recaptcha/api/siteverify"
+
+	postStr := url.Values{"secret": {secret}, "response": {recaptcha}, "remoteip": {remoteip}}
+
+	recaptchaPost, err := http.PostForm(postURL, postStr)
+
+	if err != nil {
+		resp = utils.Message(false, http.StatusOK, "Are you a human?")
+		utils.Respond(w, resp)
+		return
+	}
+
+	defer recaptchaPost.Body.Close()
+	recaptchaBody, err := ioutil.ReadAll(recaptchaPost.Body)
+
+	if err != nil {
+		resp = utils.Message(false, http.StatusOK, "Are you a human?")
+		utils.Respond(w, resp)
+		return
+	}
+
+	// this part is for server side verification
+	var APIResp JSONAPIResponse
+
+	json.Unmarshal(recaptchaBody, &APIResp)
+	if !APIResp.Success {
+		resp = utils.Message(false, http.StatusOK, "Are you a human?")
+		utils.Respond(w, resp)
+		return
+	}
 
 	// Set the input data
 	jsonData := map[string]interface{}{
@@ -272,12 +328,12 @@ var RsvpSubmit = func(w http.ResponseWriter, r *http.Request) {
 		json.Unmarshal(data, &resp)
 
 		// Send RSVP email
-		if resp["success"].(bool) {
-			subject := appName + " - Thanks for RSVP to our wedding"
-			receiver := email
-			r := utils.NewRequest([]string{receiver}, subject)
-			r.Send("views/mail/rsvp.html", map[string]string{"appName": appName, "name": name})
-		}
+		// if resp["success"].(bool) {
+		// 	subject := appName + " - Thanks for RSVP to our wedding"
+		// 	receiver := email
+		// 	r := utils.NewRequest([]string{receiver}, subject)
+		// 	r.Send("views/mail/rsvp.html", map[string]string{"appName": appName, "name": name})
+		// }
 
 		utils.Respond(w, resp)
 	}

@@ -21,6 +21,7 @@ var apiURL string
 var appURL string
 var appName string
 var appVersion string
+var recaptchaSecretKey string
 var store *sessions.CookieStore
 var cookieHashKey []byte
 var cookieBlockKey []byte
@@ -37,6 +38,7 @@ func init() {
 	appURL = os.Getenv("app_url")
 	apiURL = os.Getenv("app_api_url")
 	appVersion = os.Getenv("app_version")
+	recaptchaSecretKey = os.Getenv("recaptcha_secret_key")
 	restURL, _ = url.ParseRequestURI(apiURL)
 	store = sessions.NewCookieStore([]byte(os.Getenv("session_key")))
 	sCookie = securecookie.New(securecookie.GenerateRandomKey(32), securecookie.GenerateRandomKey(32))

@@ -29,7 +29,8 @@ $(document).ready(function(){
         .then(function (response) {
             $('#btn-submit-rsvp').html("Submit");
             $('#btn-submit-rsvp').attr("disabled", false);
-        
+            grecaptcha.reset();
+
             if(response['data']['success']) {      
                 $('#form-rsvp')[0].reset();          
                 $('#rsvp-modal').modal('toggle');
@@ -49,9 +50,10 @@ $(document).ready(function(){
             }
         
         })
-        .catch(function (error) {            
+        .catch(function (error) {      
             $('#btn-submit-rsvp').html("Submit");
             $('#btn-submit-rsvp').attr("disabled", false);
+            grecaptcha.reset();
             Swal.fire({
                 title: 'Error!',
                 text: "Please make sure that you have filled up all the required fields.",
