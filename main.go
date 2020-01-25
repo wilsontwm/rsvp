@@ -83,6 +83,11 @@ func main() {
 	router.PathPrefix("/storage/").Handler(http.StripPrefix("/storage/", http.FileServer(http.Dir("./storage/"))))
 
 	port := os.Getenv("PORT")
+
+	if os.Getenv("is_heroku") == "false" {
+		port = os.Getenv("port")
+	}
+
 	if port == "" {
 		port = "8000"
 	}
