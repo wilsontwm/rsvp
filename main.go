@@ -10,6 +10,7 @@ import (
 	"os"
 	"rsvp/api"
 	"rsvp/controllers"
+	_ "rsvp/cron"
 	"rsvp/middleware"
 )
 
@@ -60,6 +61,9 @@ func main() {
 		csrf.Secure(false),
 	)
 	routes.Use(csrfMiddleware)
+
+	// Test routes
+	routes.HandleFunc("/test", controllers.TestFunction).Methods("GET")
 
 	// General routes
 	routes.HandleFunc("/", controllers.HomePage).Methods("GET")
