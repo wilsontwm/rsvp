@@ -11,12 +11,15 @@ $(document).ready(function(){
     var $addAttendeeLink = document.getElementById("btn-add-attendee");
 
     // Click via link in statement
-    $addAttendeeLink.onclick = function() {
-        addAttendee();
-        
-        // Hide the statement
-        $('#text-add-attendee').hide();
-    };
+    if (typeof($addAttendeeLink) != 'undefined' && $addAttendeeLink != null) {
+        $addAttendeeLink.onclick = function() {
+            addAttendee();
+            
+            // Hide the statement
+            $('#text-add-attendee').hide();
+        };
+    }
+    
 
     $("#btn-submit-rsvp").click(function(e){
         e.preventDefault();
@@ -136,9 +139,10 @@ $(document).ready(function(){
         // Prevents default behavior
         event.preventDefault();
         // Adds href attribute to variable
-        var imageLocation = $(this).prev().attr("href");
+        var imageLocation = $(this).prev().attr("href") != undefined && $(this).prev().attr("href") != '' ? $(this).prev().attr("href") : $(this).prev().attr("src");
         // Add the image src to $image
         $image.attr("src", imageLocation);
+        $image.css("max-height", $(window).height());
         // Fade in the overlay
         $overlay.fadeIn("slow");
     });
@@ -156,6 +160,9 @@ $(document).ready(function(){
         }
         else if(e.keyCode == 39) { // right
             $nextButton.click();
+        }
+        else if(e.keyCode == 27) { // escape
+            $exitButton.click();
         }
     });
     

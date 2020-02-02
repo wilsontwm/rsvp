@@ -1,0 +1,9 @@
+.img-wrapper {
+    margin-top: 0;
+}
+
+.img-wrapper img {
+    float: left;
+    padding: 0 2px 2px 0;
+    /* Yes, you *can* adjust/remove padding. */
+}

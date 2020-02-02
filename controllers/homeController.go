@@ -41,6 +41,28 @@ var HomePage = func(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Gallery page
+var GalleryPage = func(w http.ResponseWriter, r *http.Request) {
+	data := map[string]interface{}{
+		"title":          "Photo Gallery",
+		"appName":        appName,
+		"appVersion":     appVersion,
+		"year":           time.Now().Format("2006"),
+		csrf.TemplateTag: csrf.TemplateField(r),
+	}
+
+	data, err := InitializePage(w, r, store, data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	err = templates.ExecuteTemplate(w, "gallery_html", data)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
 // Login page
 var LoginPage = func(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{

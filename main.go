@@ -67,6 +67,7 @@ func main() {
 
 	// General routes
 	routes.HandleFunc("/", controllers.HomePage).Methods("GET")
+	routes.HandleFunc("/gallery", controllers.GalleryPage).Methods("GET")
 	routes.HandleFunc("/login", controllers.LoginPage).Methods("GET")
 	routes.HandleFunc("/login", controllers.LoginSubmit).Methods("POST")
 	routes.HandleFunc("/signup", controllers.SignupPage).Methods("GET")
