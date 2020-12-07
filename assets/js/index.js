@@ -3,7 +3,7 @@ const minutesDuration = secondsDuration * 60;
 const hoursDuration = minutesDuration * 60;
 const daysDuration = hoursDuration * 24;
 
-const weddingDate = new Date('9/26/2020 19:00');
+const weddingDate = new Date('6/19/2021 19:00');
 const today = new Date();
 
 var currentRunningNumber = 1;
